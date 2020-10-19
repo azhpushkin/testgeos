@@ -1,4 +1,5 @@
-import testpygeos
+import testgeos_cpp
+import testgeos_pygeos
 from timeit import timeit
 
 box_point_1 = (12.3046875, 52.90890204777026) 
@@ -13,16 +14,19 @@ with open('coords.txt') as file:
 print('Total coordinates:', len(coordinates), '\n')
 
 def time_function(func):
-    total_time = timeit(lambda: func(coordinates, box_point_1, box_point_2), number=100)
-    return total_time / 100
+    RUNS = 20
+    total_time = timeit(lambda: func(coordinates, box_point_1, box_point_2), number=RUNS)
+    return total_time / RUNS
 
 EXPECTED = 5423
-assert testpygeos.filter_via_geos_cpp(coordinates, box_point_1, box_point_2) == EXPECTED
+assert testgeos_cpp.filter(coordinates, box_point_1, box_point_2) == EXPECTED
+assert testgeos_pygeos.filter(coordinates, box_point_1, box_point_2) == EXPECTED
+assert testgeos_pygeos.filter_via_lib(coordinates, box_point_1, box_point_2) == EXPECTED
 
 print('Timing average time:')
-print('* GEOS and CPP:', time_function(testpygeos.filter_via_geos_cpp))
-# res = timeit.timeit(lambda: testpygeos.filter_via_geos_cpp(coordinates, box_point_1, box_point_2), number=20)
+print('* GEOS and CPP:', time_function(testgeos_cpp.filter))
+print('* PYGEOS:', time_function(testgeos_pygeos.filter))
+print('* PYGEOS via lib:', time_function(testgeos_pygeos.filter_via_lib))
 
-# print(res)
 
 

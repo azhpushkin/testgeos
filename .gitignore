@@ -151,5 +151,6 @@ pyaacrl/*.html
 
 
 # Cython stuff
-testpygeos/geos_cpp.cpp
+testgeos/*.cpp
+testgeos/*.c
 *.so

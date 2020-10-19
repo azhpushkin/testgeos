@@ -1,23 +1,31 @@
+from distutils import extension
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
+from Cython.Distutils import build_ext
 
 
-basics_module = Extension(
-    'testpygeos',
-    sources=[
-        'testpygeos/geos_cpp.pyx', #'inmemscop/printf_voidasd.cpp'
-    ],
-    libraries=['geos'],  # better to use C library, C++ as for now
-    language='c++',  # TODO: probably dont need C++
-)
+
+extensions = [
+    Extension(
+        'testgeos_cpp',
+        ['testgeos/geos_cpp.pyx'],
+        libraries=['geos'],
+        language='c++',
+    ),
+    Extension('testgeos_pygeos',
+        ['testgeos/pygeos_f.pyx'],
+    )
+]
+
+
 
 
 
 setup(
-    name='testpygeos',
-    packages=['testpygeos'],
+    name='testgeos',
+    # packages=['testpygeos'],
     ext_modules=cythonize(
-        basics_module,
+        extensions,
         force=True,
         compiler_directives={'language_level' : "3"}
     ),

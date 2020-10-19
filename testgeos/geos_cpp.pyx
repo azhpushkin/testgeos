@@ -9,7 +9,7 @@ from geos_cpp_defs cimport (
 )
 
 
-def filter_via_geos_cpp(coordinates, corner_1, corner_2):
+def filter(coordinates, corner_1, corner_2):
     # Create polygon, using factories and linear ring
     cdef vector[Coordinate]* points = new vector[Coordinate](5)
     dereference(points)[0].x = corner_1[0]
