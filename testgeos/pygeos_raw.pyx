@@ -26,3 +26,12 @@ def filter_via_lib(coordinates, corner_1, corner_2):
             counter += 1
     
     return counter
+
+
+def filter_pregenerated(source_points, polygon):
+    counter = 0
+    for point in source_points:
+        if lib.within(point, polygon):
+            counter += 1
+    
+    return counter
