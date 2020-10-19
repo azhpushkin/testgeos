@@ -37,7 +37,6 @@ assert testgeos_cpp.filter(coordinates, box_point_1, box_point_2) == EXPECTED
 
 assert testgeos_pygeos.filter(np_coordinates, polygon) == EXPECTED
 assert testgeos_pygeos.filter_via_lib(np_coordinates, polygon) == EXPECTED
-assert testgeos_pygeos.filter_batch(np_coordinates, polygon) == EXPECTED
 
 assert testgeos_pygeos_c.filter(np_coordinates, polygon) == EXPECTED
 
@@ -47,5 +46,5 @@ assert testgeos_pygeos_c.filter(np_coordinates, polygon) == EXPECTED
 print('Timing average time:')
 print('* GEOS and CPP:', time_lambda(lambda: testgeos_cpp.filter(coordinates, box_point_1, box_point_2)))
 print('* PYGEOS:', time_pygeos(testgeos_pygeos.filter))
-print('* PYGEOS via lib batched:', time_pygeos(testgeos_pygeos.filter_batch))
-print('* PYGEOS and GEOS C:', time_pygeos(testgeos_pygeos_c.filter))
+print('* PYGEOS via lib:', time_pygeos(testgeos_pygeos.filter_via_lib))
+print('* PYGEOS (scalar objects) with GEOS-C:', time_pygeos(testgeos_pygeos_c.filter))
