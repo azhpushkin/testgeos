@@ -25,33 +25,7 @@ cdef class GeometryObject:
     cdef GEOSGeometry* ptr
 
 
-
-def filter(coordinates, corner_1, corner_2):
-    initGEOS(empty_handler, empty_handler)
-
-    source_points = points(coordinates)
-    polygon = box(*corner_1, *corner_2)
-
-    cdef GeometryObject polygon_ptr = <GeometryObject>polygon
-    cdef GeometryObject point_ptr
-    
-    cdef char res
-    
-    counter = 0
-    for point in source_points:
-        point_ptr = <GeometryObject>point
-        res = GEOSWithin((point_ptr).ptr, (polygon_ptr).ptr)
-        
-        if res == 2:
-            raise RuntimeError("Something went wrong!")
-        elif res == 1:
-            counter += 1
-    
-    finishGEOS()
-    return counter
-
-
-def filter_pregenerated(source_points, polygon):
+def filter(source_points, polygon):
     initGEOS(empty_handler, empty_handler)
 
     cdef GeometryObject polygon_ptr = <GeometryObject>polygon

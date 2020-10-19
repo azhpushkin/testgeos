@@ -1,7 +1,6 @@
-from distutils import extension
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
-from Cython.Distutils import build_ext
+import numpy
 
 
 

@@ -28,35 +28,24 @@ def time_lambda(lmbda):
     total_time = timeit(lmbda, number=RUNS)
     return total_time / RUNS
 
-def time_function(func):
-    return time_lambda(lambda: func(coordinates, box_point_1, box_point_2))
+def time_pygeos(func):
+    return time_lambda(lambda: func(np_coordinates, polygon))
 
 
 
 assert testgeos_cpp.filter(coordinates, box_point_1, box_point_2) == EXPECTED
 
-assert testgeos_pygeos.filter(coordinates, box_point_1, box_point_2) == EXPECTED
-assert testgeos_pygeos.filter_via_lib(coordinates, box_point_1, box_point_2) == EXPECTED
-assert testgeos_pygeos.filter_pregenerated(np_coordinates, polygon) == EXPECTED
+assert testgeos_pygeos.filter(np_coordinates, polygon) == EXPECTED
+assert testgeos_pygeos.filter_via_lib(np_coordinates, polygon) == EXPECTED
+assert testgeos_pygeos.filter_batch(np_coordinates, polygon) == EXPECTED
 
-assert testgeos_pygeos_c.filter_pregenerated(np_coordinates, polygon) == EXPECTED
-assert testgeos_pygeos_c.filter(coordinates, box_point_1, box_point_2) == EXPECTED
+assert testgeos_pygeos_c.filter(np_coordinates, polygon) == EXPECTED
 
 
 
 
 print('Timing average time:')
-print('* GEOS and CPP:', time_function(testgeos_cpp.filter))
-# print('* PYGEOS:', time_function(testgeos_pygeos.filter))
-print('* PYGEOS via lib:', time_function(testgeos_pygeos.filter_via_lib))
-print('* PYGEOS via GEOS_C:', time_function(testgeos_pygeos_c.filter))
-
-print('* PYGEOS pregenerated via lib:', time_lambda(
-    lambda: testgeos_pygeos.filter_pregenerated(np_coordinates, polygon)
-))
-print('* PYGEOS pregenerated via GEOS_C:', time_lambda(
-    lambda: testgeos_pygeos_c.filter_pregenerated(np_coordinates, polygon)
-))
-
-
-
+print('* GEOS and CPP:', time_lambda(lambda: testgeos_cpp.filter(coordinates, box_point_1, box_point_2)))
+print('* PYGEOS:', time_pygeos(testgeos_pygeos.filter))
+print('* PYGEOS via lib batched:', time_pygeos(testgeos_pygeos.filter_batch))
+print('* PYGEOS and GEOS C:', time_pygeos(testgeos_pygeos_c.filter))
