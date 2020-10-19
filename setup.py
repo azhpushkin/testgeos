@@ -12,9 +12,15 @@ extensions = [
         libraries=['geos'],
         language='c++',
     ),
-    Extension('testgeos_pygeos',
-        ['testgeos/pygeos_f.pyx'],
-    )
+    Extension(
+        'testgeos_pygeos',
+        ['testgeos/pygeos_raw.pyx'],
+    ),
+    Extension(
+        'testgeos_pygeos_c',
+        ['testgeos/pygeos_c.pyx'],
+        libraries=['geos_c']        
+    ),
 ]
 
 
